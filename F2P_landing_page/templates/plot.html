@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_food_prophet.css') }}">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 20px; /* Add some padding */
+            background-color: #f4f4f4; /* Light background for contrast */
+        }
+
+        .container {
+            max-width: 800px; /* Set a max width for better readability */
+            margin: auto; /* Center the container */
+            text-align: center; /* Center align text */
+        }
+
+        img {
+            max-width: 100%; /* Make the image responsive */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Ensure it's a block element */
+            margin: 0 auto; /* Center the image */
+        }
+
+        .back-button {
+            display: inline-block; /* Make it a block element */
+            margin-top: 20px; /* Space above the button */
+            padding: 10px 20px; /* Padding for the button */
+            background-color: #3498db; /* Button color */
+            color: white; /* Text color */
+            text-decoration: none; /* Remove underline */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        .back-button:hover {
+            background-color: #2980b9; /* Darker on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Plot</h1>
+        <img src="{{ plot_image }}" alt="Plot Image">
+        <a href="{{ url_for('food_prophet') }}" class="back-button">Back</a>
+    </div>
+</body>
+</html>

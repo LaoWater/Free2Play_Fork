@@ -123,12 +123,6 @@ img {
   overflow: hidden;
 }
 
-.container {
-  max-width: 968px;
-  margin-left: var(--mb-1-5);
-  margin-right: var(--mb-1-5);
-}
-
 .grid {
   display: grid;
 }
@@ -244,7 +238,6 @@ img {
 }
 
 .home__title {
-  position: absolute;
   top: -4rem;
   left: 1rem;
   line-height: 6rem;
@@ -264,11 +257,21 @@ img {
   font-size: var(--h3-font-size);
   font-weight: var(--font-medium);
   margin-bottom: var(--mb-1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .home__description {
   margin-bottom: var(--mb-2-5);
   line-height: var(--text-line-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .home__price {
@@ -277,14 +280,36 @@ img {
   margin-left: var(--mb-0-75);
 }
 
+.home__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
 /*=============== BUTTONS ===============*/
 .button {
-  display: inline-block;
-  background-color: var(--black-color);
+  background-color: #696969;
   color: var(--white-color);
-  padding: 1rem 1.25rem;
   border-radius: .5rem;
   transition: .3s;
+  display: flex;
+  padding: 0.5rem;
+  max-width: 15%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .button:hover {
@@ -295,11 +320,6 @@ img {
   font-size: 1.2rem;
 }
 
-.button--flex {
-  display: inline-flex;
-  align-items: center;
-  column-gap: .75rem;
-}
 
 /*=============== SPONSOR ===============*/
 .sponsor__img {
@@ -749,9 +769,6 @@ img {
   .home__title {
     top: -5rem;
     left: 3.5rem;
-  }
-  .home__description {
-    padding-right: 5rem;
   }
   .sponsor__img {
     width: 100px;
