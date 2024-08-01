@@ -1,6 +1,7 @@
 import json
 import psycopg2
 
+
 def process_origin_nexus_dataset(value):
     side_control_l = 'Left '
     side_control_r = 'Right '
@@ -10,13 +11,12 @@ def process_origin_nexus_dataset(value):
 
     sql_query = f"""
     SELECT nn.NexusName,
-    case when nml.OppositeSide = 0 then '{side_control_r}' else '{side_control_l}' end + m.MuscleName,
-    case nml.Type when 'Compression' then 'Release/Lengthen' else 'Activate/Shorten' end
+    CASE WHEN nml.OppositeSide = FALSE THEN '{side_control_r}' ELSE '{side_control_l}' END || m.MuscleName,
+    CASE nml.Type WHEN 'Compression' THEN 'Release/Lengthen' ELSE 'Activate/Shorten' END
     FROM NexusMuscleLink nml
     INNER JOIN Muscles m ON m.MuscleID = nml.MuscleID
     INNER JOIN NexusNetwork nn ON nn.NexusID = nml.NexusID
-    WHERE 1=1
-    and nn.NexusName = 'Origin Nexus'
+    WHERE nn.NexusName = 'Origin Nexus'
     ORDER BY nn.NexusID, nml.OppositeSide, nml.Type DESC, m.MuscleID
     """
     query_database(sql_query)
@@ -33,13 +33,12 @@ def process_nebula_nexus_dataset(value):
 
     sql_query = f"""
     SELECT nn.NexusName,
-    case when nml.OppositeSide = 0 then '{side_control_r}' else '{side_control_l}' end + m.MuscleName,
-    case nml.Type when 'Compression' then 'Release/Lengthen' else 'Activate/Shorten' end
+    CASE WHEN nml.OppositeSide = FALSE THEN '{side_control_r}' ELSE '{side_control_l}' END || m.MuscleName,
+    CASE nml.Type WHEN 'Compression' THEN 'Release/Lengthen' ELSE 'Activate/Shorten' END
     FROM NexusMuscleLink nml
     INNER JOIN Muscles m ON m.MuscleID = nml.MuscleID
     INNER JOIN NexusNetwork nn ON nn.NexusID = nml.NexusID
-    WHERE 1=1
-    and nn.NexusName = 'Nebula Nexus'
+    WHERE nn.NexusName = 'Nebula Nexus'
     ORDER BY nn.NexusID, nml.OppositeSide, nml.Type DESC, m.MuscleID
     """
     query_database(sql_query)
@@ -56,13 +55,12 @@ def process_horizon_nexus_dataset(value):
 
     sql_query = f"""
     SELECT nn.NexusName,
-    case when nml.OppositeSide = 0 then '{side_control_r}' else '{side_control_l}' end + m.MuscleName,
-    case nml.Type when 'Compression' then 'Release/Lengthen' else 'Activate/Shorten' end
+    CASE WHEN nml.OppositeSide = FALSE THEN '{side_control_r}' ELSE '{side_control_l}' END || m.MuscleName,
+    CASE nml.Type WHEN 'Compression' THEN 'Release/Lengthen' ELSE 'Activate/Shorten' END
     FROM NexusMuscleLink nml
     INNER JOIN Muscles m ON m.MuscleID = nml.MuscleID
     INNER JOIN NexusNetwork nn ON nn.NexusID = nml.NexusID
-    WHERE 1=1
-    and nn.NexusName = 'Horizon Nexus'
+    WHERE nn.NexusName = 'Horizon Nexus'
     ORDER BY nn.NexusID, nml.OppositeSide, nml.Type DESC, m.MuscleID
     """
     query_database(sql_query)
@@ -71,16 +69,12 @@ def process_horizon_nexus_dataset(value):
 
 
 def connect_to_database():
-    # For PostgreSQL
-    server = 'your_server'  # Your server name
-    database = 'your_database'  # Your database name
-    username = 'your_username'  # Your username
-    password = 'your_password'  # Your password
-
-    # Connection string for PostgreSQL
-    conn_str = f"host={server} dbname={database} user={username} password={password}"
-    conn = psycopg2.connect(conn_str)
-
+    conn = psycopg2.connect(
+        dbname="free2play",
+        user="postgres",  # Change this to your PostgreSQL username if different
+        password="postgres",  # Change this to your PostgreSQL password
+        host="localhost"  # Change this if your PostgreSQL is hosted elsewhere
+    )
     return conn
 
 
@@ -98,6 +92,7 @@ def query_database(query):
     print('\n')
 
     cursor.close()
+    conn.close()
 
 
 def query_database_json(query):

@@ -1,18 +1,19 @@
-INSERT INTO NexusNetwork (NexusID, NexusName, Description) VALUES
-(1, 'Origin Nexus', 'Connects body to ground'),
-(2, 'Nebula Nexus', 'Center of kinetic energy Generation & Absorption'),
-(3, 'Horizon Nexus', 'Functioning of extremities');
+-- Inserting data into NexusNetwork table
+INSERT INTO NexusNetwork (NexusName, Description) VALUES
+('Origin Nexus', 'Connects body to ground'),
+('Nebula Nexus', 'Center of kinetic energy Generation & Absorption'),
+('Horizon Nexus', 'Functioning of extremities');
 
+-- Inserting data into FunctionalFascialLines table
+INSERT INTO FunctionalFascialLines (NexusID, LineName, FunctionDescription) VALUES
+(1, 'Lateral Line', 'Facilitates lateral movement and stabilization, spanning from the foot to the head along the bodyâ€™s sides.'),
+(2, 'Oblique Sling', 'Supports rotational forces and transfers energy between the upper and lower body.'),
+(2, 'Lateral Line Proximal', 'Handles upper body lateral stability and movement, particularly in the torso.'),
+(1, 'Lateral Line Inferior', 'Manages lower body lateral movements and contributes to lower limb stability.'),
+(3, 'Lateral Line Superior', 'Aids in stability and movement of the head and neck in lateral directions.'),
+(3, 'Arm Line', 'Controls the movements and stabilization of the arm, facilitating various arm motions.');
 
-INSERT INTO FunctionalFascialLines (LineID, NexusID, LineName, FunctionDescription) VALUES
-(1, 1, 'Lateral Line', 'Facilitates lateral movement and stabilization, spanning from the foot to the head along the body’s sides.'),
-(2, 2, 'Oblique Sling', 'Supports rotational forces and transfers energy between the upper and lower body.'),
-(3, 2, 'Lateral Line Proximal', 'Handles upper body lateral stability and movement, particularly in the torso.'),
-(4, 1, 'Lateral Line Inferior', 'Manages lower body lateral movements and contributes to lower limb stability.'),
-(5, 3, 'Lateral Line Superior', 'Aids in stability and movement of the head and neck in lateral directions.'),
-(6, 3, 'Arm Line', 'Controls the movements and stabilization of the arm, facilitating various arm motions.');
-
-
+-- Inserting data into Stations table
 INSERT INTO Stations (StationID, StationName) VALUES
 (0, 'Nose'),
 (9, 'Mouth left'),
@@ -39,7 +40,7 @@ INSERT INTO Stations (StationID, StationName) VALUES
 (31, 'Left foot index'),
 (32, 'Right foot index');
 
-
+-- Inserting data into Muscles table
 INSERT INTO Muscles (MuscleName, Description, LowerStationID, UpperStationID) VALUES
 -- Lower Body Muscles
 ('Exterior Plantar Fascia', 'Fibrous tissue that supports the arch on the outer side of the bottom of the foot', 32, 30),
@@ -62,7 +63,7 @@ INSERT INTO Muscles (MuscleName, Description, LowerStationID, UpperStationID) VA
 ('Erector Spinae', 'Muscle that runs along the spine, maintains posture', 23, 11),
 ('Pectoralis Major', 'Chest muscle that causes the arm to rotate inwardly', 11, 13),
 ('Pectoralis Minor', 'Small chest muscle that draws the scapula downward and forward', 11, 13),
-('Latissimus Dorsi', 'Large tmuscle on the back that moves the arm', 11, 23),
+('Latissimus Dorsi', 'Large muscle on the back that moves the arm', 11, 23),
 ('Deltoid', 'Shoulder muscle for arm rotation', 11, 13),
 ('Biceps Brachii', 'Front of the upper arm, flexes the elbow', 13, 15),
 ('Triceps Brachii', 'Back of the upper arm, extends the elbow', 13, 15),
@@ -72,17 +73,17 @@ INSERT INTO Muscles (MuscleName, Description, LowerStationID, UpperStationID) VA
 ('Teres Minor', 'Teres minor is a rotator cuff muscle that externally rotates and adducts the arm', 15, 19),
 ('Teres Major', 'The TM muscle acts as a function as a unit with the latissimus dorsi (LD), where it acts in synergy to extend, adduct and internally rotate the shoulder.', 0, 11),
 
-/* Finer Muslces */
+-- Finer Muscles
 ('Levator Scapulae', 'Elevates the scapula and tilts its glenoid cavity inferiorly by rotating the scapula.', 11, 0), 
 ('Scalenes', 'Group of three pairs of muscles in the lateral neck, primarily involved in respiration and assisting in neck flexion.', 0, 0), 
 ('Masseter', 'Facial muscle that plays a major role in the chewing of solid foods, one of the strongest muscles in the human body.', 9, 10),
 ('SCM', 'Anchorer of head', 9, 10),
-('Biceps', 'A large muscle that lies on the front of the upper arm between the shoulder and the elbow.', 11, 14); 
+('Biceps', 'A large muscle that lies on the front of the upper arm between the shoulder and the elbow.', 11, 14);
 
-
-/* Origin Nexus */
+-- Inserting data into NexusMuscleLink table
+-- Origin Nexus
 INSERT INTO NexusMuscleLink (NexusID, MuscleID, Type, OppositeSide)
-SELECT n.NexusID, m.MuscleID, 'Compression' AS Type, 0 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Compression' AS Type, FALSE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Origin Nexus' AND m.MuscleName IN (
     'Exterior Plantar Fascia',
@@ -90,36 +91,29 @@ JOIN Muscles m ON n.NexusName = 'Origin Nexus' AND m.MuscleName IN (
     'Gluteus Medius',
     'Quadratus Lumborum',
     'External Oblique'
-    -- *Optional - can deepen 
 )
-
 UNION ALL
-
-SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, 0 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, FALSE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Origin Nexus' AND m.MuscleName IN (
     'Interior Plantar Fascia',
-    'Adductor Magnus' )
-
+    'Adductor Magnus'
+)
 UNION ALL
-
-SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, 1 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, TRUE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Origin Nexus' AND m.MuscleName IN (
     'Exterior Plantar Fascia',
     'Tibialis Anterior',
-	'IT Band',
-	'External Oblique',
-	'Quadratus Lumborum'
+    'IT Band',
+    'External Oblique',
+    'Quadratus Lumborum'
 );
 
-
-
-/*Nebula Nexus */
+-- Nebula Nexus
 -- Inserting 'Compression' type for Nebula Nexus
 INSERT INTO NexusMuscleLink (NexusID, MuscleID, Type, OppositeSide)
-
-SELECT n.NexusID, m.MuscleID, 'Compression' AS Type, 0 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Compression' AS Type, FALSE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Nebula Nexus' AND m.MuscleName IN (
     'Gluteus Maximus',
@@ -127,20 +121,16 @@ JOIN Muscles m ON n.NexusName = 'Nebula Nexus' AND m.MuscleName IN (
     'Internal Oblique',
     'Pectoralis Major'
 )
-
 UNION ALL
-
 -- Inserting 'Activation' type with no opposite side for Nebula Nexus
-SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, 0 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, FALSE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Nebula Nexus' AND m.MuscleName IN (
     'Adductor Magnus'
 )
-
 UNION ALL
-
 -- Inserting 'Activation' type with opposite side for Nebula Nexus
-SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, 1 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, TRUE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Nebula Nexus' AND m.MuscleName IN (
     'Latissimus Dorsi',
@@ -149,12 +139,10 @@ JOIN Muscles m ON n.NexusName = 'Nebula Nexus' AND m.MuscleName IN (
     'Gluteus Maximus'
 );
 
-
-
-/*Horizon Nexus */
+-- Horizon Nexus
 -- Inserting 'Compression' type for Horizon Nexus without opposite side
 INSERT INTO NexusMuscleLink (NexusID, MuscleID, Type, OppositeSide)
-SELECT n.NexusID, m.MuscleID, 'Compression' AS Type, 0 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Compression' AS Type, FALSE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Horizon Nexus' AND m.MuscleName IN (
     'Trapezius',
@@ -165,92 +153,40 @@ JOIN Muscles m ON n.NexusName = 'Horizon Nexus' AND m.MuscleName IN (
     'Biceps',
     'Forearm Flexors'
 )
-
 UNION ALL
-
 -- Inserting 'Activation' type for Horizon Nexus without opposite side
-SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, 0 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, FALSE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Horizon Nexus' AND m.MuscleName IN (
     'Forearm Extensors'
 )
-
 UNION ALL
-
 -- Inserting 'Compression' type for Horizon Nexus with opposite side
-SELECT n.NexusID, m.MuscleID, 'Compression' AS Type, 1 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Compression' AS Type, TRUE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Horizon Nexus' AND m.MuscleName IN (
     'Deltoid',
     'Forearm Extensors'
 )
-
 UNION ALL
-
 -- Inserting 'Activation' type for Horizon Nexus with opposite side
-SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, 1 AS OppositeSide
+SELECT n.NexusID, m.MuscleID, 'Activation' AS Type, TRUE AS OppositeSide
 FROM NexusNetwork n
 JOIN Muscles m ON n.NexusName = 'Horizon Nexus' AND m.MuscleName IN (
     'SCM',
     'Scalenes'
 );
 
-
-/*
-
--- Muscles to Nexus/Lines connection
--- Linking muscles to the Origin Nexus (foundation and ground connection)
-INSERT INTO NexusMuscleLink (NexusID, MuscleID)
-SELECT n.NexusID, m.MuscleID
-FROM NexusNetwork n, Muscles m
-WHERE n.NexusName = 'Origin Nexus' AND m.MuscleName IN (
-    'Exterior Plantar Fascia',
-    'IT Band',
-    'Gluteus Medius',
-    'Quadratus Lumborum',
-	'External Oblique'
-    -- *Optional - can deepen 
-);
-
--- Linking muscles to the Nebula Nexus (Core kinetic energy generation & absorption)
-INSERT INTO NexusMuscleLink (NexusID, MuscleID)
-SELECT n.NexusID, m.MuscleID
-FROM NexusNetwork n, Muscles m
-WHERE n.NexusName = 'Nebula Nexus' AND m.MuscleName IN (
-    'Latissimus Dorsi',
-	'Adductor Magnus',
-	'Gluteus Maximus',
-	'Pectoralis Major',
-    'External Oblique'
-
-
-);
-
--- Linking muscles to the Horizon Nexus (functioning of extremities)
-INSERT INTO NexusMuscleLink (NexusID, MuscleID)
-SELECT n.NexusID, m.MuscleID
-FROM NexusNetwork n, Muscles m
-WHERE n.NexusName = 'Horizon Nexus' AND m.MuscleName IN (
-	'Trapezius',
-    'Pectoralis Major',
-    'Pectoralis Minor',
-    'Deltoid',
-    'Biceps Brachii',
-    'Triceps Brachii'
-    -- Add other muscles primarily associated with extremity movement and stabilization
-);
-
-*/
-
-
+-- Inserting data into Methods table
 INSERT INTO Methods (MethodName, Description, MethodType, TargetMuscleType, SuitableForHome) VALUES
-('Resistance Band Workouts', 'Use of resistance bands to perform various strength exercises at home', 'Training & Activating', 'General', 1),
-('Body Weight Exercises', 'Exercises that use body weight as resistance, such as push-ups, squats, and lunges', 'Training & Activating', 'Full Body', 1),
-('Guided Meditation', 'Audio or video-led sessions that guide individuals through relaxation techniques', 'Relaxing & Releasing', 'Mental & Physical Health', 1),
-('Self-Myofascial Release', 'Techniques using foam rollers or massage balls to perform self-massage, releasing muscle tightness', 'Relaxing & Releasing', 'General', 1),
-('Yoga', 'Home-based yoga sessions focusing on flexibility, strength, and relaxation', 'Training & Activating', 'General', 1),
-('Breathwork Exercises', 'Techniques that involve controlling the breathing pattern to improve relaxation', 'Relaxing & Releasing', 'Respiratory System', 1),
-('Pilates', 'Exercise system that improves flexibility, builds strength and develops control and endurance in the entire body', 'Training & Activating', 'Full Body', 1),
-('Stretching Routines', 'Simple stretching exercises aimed to improve flexibility and relax muscles', 'Relaxing & Releasing', 'General', 1),
-('Isometric Holds', 'Exercises that involve holding a position without movement to build strength', 'Training & Activating', 'Specific Muscle Groups', 1),
-('Progressive Muscle Relaxation', 'Technique of tensing and then relaxing each muscle group in sequence', 'Relaxing & Releasing', 'General', 1);
+('Resistance Band Workouts', 'Use of resistance bands to perform various strength exercises at home', 'Training & Activating', 'General', TRUE),
+('Body Weight Exercises', 'Exercises that use body weight as resistance, such as push-ups, squats, and lunges', 'Training & Activating', 'Full Body', TRUE),
+('Guided Meditation', 'Audio or video-led sessions that guide individuals through relaxation techniques', 'Relaxing & Releasing', 'Mental & Physical Health', TRUE),
+('Self-Myofascial Release', 'Techniques using foam rollers or massage balls to perform self-massage, releasing muscle tightness', 'Relaxing & Releasing', 'General', TRUE),
+('Yoga', 'Home-based yoga sessions focusing on flexibility, strength, and relaxation', 'Training & Activating', 'General', TRUE),
+('Breathwork Exercises', 'Techniques that involve controlling the breathing pattern to improve relaxation', 'Relaxing & Releasing', 'Respiratory System', TRUE),
+('Pilates', 'Exercise system that improves flexibility, builds strength and develops control and endurance in the entire body', 'Training & Activating', 'Full Body', TRUE),
+('Stretching Routines', 'Simple stretching exercises aimed to improve flexibility and relax muscles', 'Relaxing & Releasing', 'General', TRUE),
+('Isometric Holds', 'Exercises that involve holding a position without movement to build strength', 'Training & Activating', 'Specific Muscle Groups', TRUE),
+('Progressive Muscle Relaxation', 'Technique of tensing and then relaxing each muscle group in sequence', 'Relaxing & Releasing', 'General', TRUE);
+	

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Processed Image</title>
+</head>
+<body>
+    <h1>Processed Image and Output</h1>
+    <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Processed Image">
+    <h2>Script Output:</h2>
+    <pre>{{ script_output }}</pre>
+    <a href="{{ url_for('landing_page') }}">Back to Home</a>
+</body>
+</html>
