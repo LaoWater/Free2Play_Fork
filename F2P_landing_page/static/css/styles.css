@@ -13,7 +13,7 @@
   --white-color: #FFF;
   --body-color: hsl(var(--hue-color), 4%, 6%);
   --container-color: hsl(var(--hue-color), 4%, 10%);
-  --text-gradient: linear-gradient(hsl(var(--hue-color), 4%, 24%), hsl(var(--hue-color), 4%, 8%));
+  --text-gradient: linear-gradient(hsl(var(--hue-color), 3%, 33%), hsl(var(--hue-color), 2%, 100%));
   --scroll-thumb-color: hsl(var(--hue-color), 4%, 16%);
   --scroll-thumb-color-alt: hsl(var(--hue-color), 4%, 20%);
   /*========== Font and typography ==========*/
@@ -72,7 +72,12 @@ body {
   font-size: var(--normal-font-size);
   background-color: var(--body-color);
   color: var(--text-color);
+  background-image: url(pxfuel.jpg); /* Ensure the correct path to your image */
+  background-size: cover; /* Cover the entire viewport */
+  background-position: center; /* Center the image */
+  background-attachment: fixed; /* Keep the background fixed during scroll */
 }
+
 
 h1, h2, h3 {
   color: var(--title-color);
@@ -230,11 +235,15 @@ img {
 }
 
 .home__data {
-  padding-top: 5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
+
 .home__header {
-  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .home__title {
@@ -258,6 +267,7 @@ img {
   font-weight: var(--font-medium);
   margin-bottom: var(--mb-1);
   display: flex;
+  color: red;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -710,9 +720,6 @@ img {
   .home__img {
     top: -9rem;
     left: 4rem;
-  }
-  .home__data {
-    padding-top: 8rem;
   }
   .specs__img {
     width: 300px;
