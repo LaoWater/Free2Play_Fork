@@ -1,3 +1,5 @@
+/* Install Postgres SQL server */
+
 -- Drop dependent tables first
 DROP TABLE IF EXISTS NexusMuscleLink;
 DROP TABLE IF EXISTS TracksMetrics;
